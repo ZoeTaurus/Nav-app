@@ -1,8 +1,0 @@
-[build]
-builder = "NIXPACKS"
-
-[deploy]
-startCommand = "npm run build:client && npm start"
-
-[variables]
-NODE_ENV = "production"

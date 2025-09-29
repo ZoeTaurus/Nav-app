@@ -2,7 +2,7 @@
   "name": "road-time-measurement-web",
   "version": "1.0.0",
   "description": "A comprehensive road time measurement web app with route analysis and crowd-sourced traffic data",
-  "main": "server/index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build:client",
@@ -17,12 +17,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
-    "helmet": "^7.1.0",
-    "compression": "^1.7.4",
-    "sqlite3": "^5.1.6",
-    "uuid": "^9.0.1",
-    "ws": "^8.14.2",
-    "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",

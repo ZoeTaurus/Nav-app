@@ -5,14 +5,10 @@ NODE_VERSION = "18"
 nixPkgs = ["nodejs_18"]
 
 [phases.install]
-cmd = "npm install"
+cmd = "npm ci"
 
 [phases.build]
-cmds = [
-  "npm run build:client || echo 'Client build failed but continuing'",
-  "ls -la",
-  "ls -la dist/ || echo 'No dist directory'"
-]
+cmd = "npm run build:client"
 
 [phases.start]
 cmd = "node server.js"
