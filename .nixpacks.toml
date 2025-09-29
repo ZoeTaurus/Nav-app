@@ -1,0 +1,11 @@
+[variables]
+NODE_VERSION = "18"
+
+[phases.build]
+cmds = [
+  "npm ci",
+  "npm run build:client"
+]
+
+[phases.start]
+cmd = "npm start"
