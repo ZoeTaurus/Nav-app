@@ -27,12 +27,20 @@ app.post('/api/routes', (req, res) => {
 
 // Serve React app for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/client/index.html'));
+  const indexPath = path.join(__dirname, 'dist/client/index.html');
+  console.log('Serving index.html from:', indexPath);
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      res.status(500).send('Error loading application');
+    }
+  });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Nav-app is running on port ${PORT}`);
   console.log(`📱 Open http://localhost:${PORT} to view the app`);
+  console.log(`🌐 Server bound to 0.0.0.0:${PORT} for Railway`);
 });
 
 module.exports = app;
