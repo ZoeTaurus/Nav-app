@@ -1,14 +1,19 @@
 [variables]
 NODE_VERSION = "18"
-PORT = "8080"
 
 [phases.setup]
 nixPkgs = ["nodejs_18", "npm"]
 
+[phases.install]
+cmds = [
+  "npm ci"
+]
+
 [phases.build]
 cmds = [
-  "npm ci",
-  "npm run build:client"
+  "npm run build:client",
+  "ls -la dist/",
+  "ls -la dist/client/ || echo 'Client build failed'"
 ]
 
 [phases.start]
