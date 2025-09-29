@@ -1,4 +1,4 @@
-# Road Time Measurement App
+# Nav-app (Road Time Measurement)
 
 A comprehensive mobile application for tracking and analyzing travel routes, measuring journey times, detecting speed bumps, and analyzing traffic patterns through crowd-sourced data.
 
