@@ -1,6 +1,6 @@
-import express from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import { dbGet, dbAll, dbRun } from '../database';
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const { dbGet, dbAll, dbRun } = require('../database');
 
 const router = express.Router();
 
@@ -239,4 +239,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-export { router as routeRoutes };
+module.exports = { routeRoutes: router };

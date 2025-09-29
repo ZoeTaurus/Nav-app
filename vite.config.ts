@@ -18,7 +18,12 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist/client',
-    sourcemap: true
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
   },
   define: {
     global: 'globalThis'

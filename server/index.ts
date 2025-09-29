@@ -1,24 +1,22 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import compression from 'compression';
-import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
+const { createServer } = require('http');
+const { WebSocketServer } = require('ws');
+const path = require('path');
+const dotenv = require('dotenv');
 
-import { setupDatabase } from './database';
-import { routeRoutes } from './routes/routes';
-import { sessionRoutes } from './routes/sessions';
-import { analyticsRoutes } from './routes/analytics';
-import { communityRoutes } from './routes/community';
-import { setupWebSocket } from './websocket';
+const { setupDatabase } = require('./database');
+const { routeRoutes } = require('./routes/routes');
+const { sessionRoutes } = require('./routes/sessions');
+const { analyticsRoutes } = require('./routes/analytics');
+const { communityRoutes } = require('./routes/community');
+const { setupWebSocket } = require('./websocket');
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = __dirname || path.resolve();
 
 const app = express();
 const server = createServer(app);
