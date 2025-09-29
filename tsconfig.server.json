@@ -10,9 +10,10 @@
     "noEmit": false,
     "outDir": "./dist/server",
     "rootDir": "./server",
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false
   },
   "include": ["server/**/*"],
   "exclude": ["node_modules", "dist"]

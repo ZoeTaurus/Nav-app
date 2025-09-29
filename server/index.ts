@@ -16,7 +16,7 @@ const { setupWebSocket } = require('./websocket');
 
 dotenv.config();
 
-const __dirname = __dirname || path.resolve();
+const __dirname = path.resolve();
 
 const app = express();
 const server = createServer(app);
@@ -50,49 +50,59 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Initialize database
-await setupDatabase();
+// Initialize and start server
+async function startServer() {
+  try {
+    // Initialize database
+    await setupDatabase();
 
-// API routes
-app.use('/api/routes', routeRoutes);
-app.use('/api/sessions', sessionRoutes);
-app.use('/api/analytics', analyticsRoutes);
-app.use('/api/community', communityRoutes);
+    // API routes
+    app.use('/api/routes', routeRoutes);
+    app.use('/api/sessions', sessionRoutes);
+    app.use('/api/analytics', analyticsRoutes);
+    app.use('/api/community', communityRoutes);
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    environment: NODE_ENV 
-  });
-});
+    // Health check
+    app.get('/api/health', (req: any, res: any) => {
+      res.json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        environment: NODE_ENV 
+      });
+    });
 
-// Serve static files in production
-if (NODE_ENV === 'production') {
-  const clientPath = path.join(__dirname, '../client');
-  app.use(express.static(clientPath));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(clientPath, 'index.html'));
-  });
+    // Serve static files in production
+    if (NODE_ENV === 'production') {
+      const clientPath = path.join(__dirname, '../client');
+      app.use(express.static(clientPath));
+      
+      app.get('*', (req: any, res: any) => {
+        res.sendFile(path.join(clientPath, 'index.html'));
+      });
+    }
+
+    // WebSocket setup for real-time features
+    setupWebSocket(wss);
+
+    // Error handling middleware
+    app.use((err: any, req: any, res: any, next: any) => {
+      console.error('Error:', err);
+      res.status(500).json({ 
+        error: NODE_ENV === 'production' ? 'Internal server error' : err.message 
+      });
+    });
+
+    server.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📍 Environment: ${NODE_ENV}`);
+      console.log(`🌐 WebSocket server ready`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
-// WebSocket setup for real-time features
-setupWebSocket(wss);
+startServer();
 
-// Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('Error:', err);
-  res.status(500).json({ 
-    error: NODE_ENV === 'production' ? 'Internal server error' : err.message 
-  });
-});
-
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${NODE_ENV}`);
-  console.log(`🌐 WebSocket server ready`);
-});
-
-export { app, server, wss };
+module.exports = { app, server, wss };
